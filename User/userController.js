@@ -1,6 +1,8 @@
 const express = require("express")
 const router = express.Router()
 const userService = require("./userService")
+const log = require("../Logger/loggerSrevice")
+
 
 // http://localhost:8000/auth/login
 router.post("/login", async (req,res) => {
@@ -10,10 +12,12 @@ router.post("/login", async (req,res) => {
     if (!username || !email) return res.status(401).send({error: "username and password are required"})
     try{
         const data = await userService.login(username,email)
+        log.info(`user:${data.userfullname} - successfully logged in`)
         res.cookie('loginToken',data.token)
         res.json({success: true, user:data.userfullname})
     }
     catch (err) {
+        log.error(`There was an error to logged in:${err}`)
         res.status(500).send({ err: 'Failed to login' })
     }
 })

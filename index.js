@@ -16,7 +16,7 @@ app.use(cors())
 const userController = require("./User/userController.js")
 app.use("/auth", userController)
 
-//app.use(authenticateToken.requireAuth)
+app.use(authenticateToken.requireAuth)
 
 const employeeController = require("./Employee/employeeController.js")
 app.use("/employee", employeeController)
